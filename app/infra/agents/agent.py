@@ -1,6 +1,7 @@
 from google.adk.agents import Agent
 from .prompt import root_agent_instruction
 #from ...core.config import settings
+from .sub_agents.coding_agent import coding_agent
 from google.genai import types
 from google.adk.planners import BuiltInPlanner
 from dotenv import load_dotenv
@@ -17,5 +18,5 @@ root_agent = Agent(
             thinking_budget= 1024
         )
     ),
-    sub_agents= []
+    sub_agents= [coding_agent]
 )
