@@ -1,6 +1,12 @@
 from dotenv import load_dotenv
 from google.adk.agents import Agent
 from google.adk.planners import BuiltInPlanner
+from .sub_agents.coding_agent import coding_agent
+from .sub_agents.learning_agent import learning_agent
+from .sub_agents.admission_agent import admission_agent
+from .sub_agents.general_agent import general_agent
+from .sub_agents.qa_agent import qa_agent
+from dotenv import load_dotenv
 
 # from ...core.config import settings
 from google.genai import types
@@ -18,5 +24,5 @@ root_agent = Agent(
             include_thoughts=True, thinking_budget=1024
         )
     ),
-    sub_agents=[],
+    sub_agents= [coding_agent, learning_agent, admission_agent, general_agent, qa_agent]
 )

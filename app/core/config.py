@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from functools import lru_cache
 from typing import Any, Literal
-
+import os
 import rootutils
 from pydantic import SecretStr, ValidationInfo, field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
@@ -80,7 +80,7 @@ class Settings(BaseSettings):
     # --- Infra ---
     DATABASE_URL: str = "postgresql+psycopg://rag:ragpass@localhost:5432/ragdb"
     REDIS_URL: str = "redis://localhost:6379/0"
-
+    MONGO_URI_LEARNING: str = os.getenv("MONGO_URI_LEARNING") # mongoDB config for learning agent to store learning data
     # --- Vector Store Configuration ---
     # Individual vector config fields from .env
     PGVECTOR_DIM: int = 1536
