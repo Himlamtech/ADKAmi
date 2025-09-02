@@ -1,7 +1,6 @@
 # app/infra/storage/json_storage.py
 """JSON file storage for chat sessions."""
 
-
 import json
 import logging
 from datetime import datetime
@@ -10,7 +9,7 @@ from typing import Any, Dict, List
 from uuid import UUID
 
 from app.schemas.chat import Message, SessionInfo
-from app.utils.io import load_json, save_json, read_file, write_file
+from app.utils.io import load_json, save_json
 
 logger = logging.getLogger(__name__)
 
@@ -97,7 +96,9 @@ class JSONChatStorage:
         except Exception as e:
             logger.error(f"Failed to save sessions: {e}")
 
-    def load_messages(self, session_id: UUID, max_conversation_length: int) -> List[Message]:
+    def load_messages(
+        self, session_id: UUID, max_conversation_length: int
+    ) -> List[Message]:
         """Load messages for a specific session."""
         try:
             messages_file = self.messages_dir / f"{session_id}.json"
@@ -149,14 +150,13 @@ class JSONChatStorage:
         """Append new messages to existing session."""
         try:
             existing_messages = self.load_messages(
-                    session_id, max_conversation_length=max_conversation_length
+                session_id, max_conversation_length=max_conversation_length
             )
             all_messages = existing_messages + new_messages
             self.save_messages(session_id, all_messages)
 
         except Exception as e:
             logger.error(f"Failed to append messages for {session_id}: {e}")
-
 
     def get_storage_stats(self) -> Dict[str, Any]:
         """Get storage statistics."""

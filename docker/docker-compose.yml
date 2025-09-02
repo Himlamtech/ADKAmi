@@ -1,8 +1,8 @@
 # 🚀 AmiAgent - All-in-One Docker Compose
-# 
+#
 # USAGE:
 # Production:     docker compose up -d
-# Development:    APP_ENV=dev docker compose up -d  
+# Development:    APP_ENV=dev docker compose up -d
 # With Tools:     docker compose --profile tools up -d
 # Dev + Tools:    APP_ENV=dev docker compose --profile tools up -d
 
@@ -125,7 +125,7 @@ services:
       - tools
       - dev
 
-  # 🗄️ pgAdmin for PostgreSQL management  
+  # 🗄️ pgAdmin for PostgreSQL management
   pgadmin:
     image: dpage/pgadmin4:latest
     container_name: amiagent-pgadmin

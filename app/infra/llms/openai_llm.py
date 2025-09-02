@@ -1,7 +1,6 @@
 # app/infra/llms/openai_llm.py
 """Clean OpenAI wrapper."""
 
-
 import asyncio
 import logging
 from typing import Any, AsyncIterator

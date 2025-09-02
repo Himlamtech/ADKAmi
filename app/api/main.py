@@ -1,7 +1,6 @@
 # app/api/main.py
 """FastAPI main application."""
 
-
 import logging
 
 import rootutils

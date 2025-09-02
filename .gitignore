@@ -1,37 +1,142 @@
-# Python-generated files
+########################
+# Python
+########################
 __pycache__/
-*.py[oc]
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.dylib
+*.egg
+*.egg-info/
+.eggs/
 build/
 dist/
 wheels/
-*.egg-info
+pip-wheel-metadata/
+site/
+.ipynb_checkpoints/
+
+# Python tools
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+.tox/
+.nox/
+.hypothesis/
+.pyre/
+.pytype/
+.dmypy.json
 
 # Virtual environments
+.venv/
+venv/
+__pypackages__/
+.python-version
 
-.venv
+# Python data & DB files
+*.sqlite
+*.sqlite3
+*.sqlite3-journal
+*.db
+
+# Coverage
+.coverage
+.coverage.*
+htmlcov/
+
+# Logs
+*.log
+logs/
+
+########################
+# Node.js & React
+########################
+node_modules/
+.pnp
+.pnp.js
+.pnp.cjs
+.yarn/cache/
+.yarn/unplugged/
+.yarn/build-state.yml
+.yarn/install-state.gz
+.yarn/sdks/
+.yarn/versions/
+
+# Build outputs
+dist/
+build/
+.cache/
+.parcel-cache/
+.turbo/
+.next/
+out/
+storybook-static/
+.vercel/
+.netlify/
+.serverless/
+
+# Test coverage
+coverage/
+.nyc_output/
+
+# Lint/style caches
+.eslintcache
+.stylelintcache
+
+# Debug logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+########################
+# Environment & Secrets
+########################
 .env
+.env.*
+!.env.example
+!.env.sample
 
-# Ignore all cache directories
-**/.cache/
+########################
+# OS Files
+########################
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
 
-# Ignore all build directories
-**/build/
+########################
+# IDE / Editor
+########################
+.idea/
+.vscode/
+*.code-workspace
 
-# Ignore all dist directories
-**/dist/
+# Swap files
+*.swp
+*.swo
 
-# Ignore all wheel directories
-**/wheels/
+########################
+# Process / Runtime
+########################
+pids/
+*.pid
+*.seed
+*.pid.lock
+tmp/
+temp/
+uploads/
+media/
 
-# Ignore all ruff cache directories
-**/.ruff_cache/
-
-# Ignore all pytest cache directories
-**/.pytest_cache/
-
-# Ignore all mypy cache directories
-**/.mypy_cache/
-
-# Ignore all build directories
-**/build/
-
+########################
+# Specific Project
+########################
+assets/
+storage/

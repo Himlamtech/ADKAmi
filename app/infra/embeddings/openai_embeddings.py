@@ -1,7 +1,6 @@
 # app/infra/embeddings/openai_embeddings.py
 """Clean OpenAI embeddings wrapper."""
 
-
 import asyncio
 import logging
 from typing import Any

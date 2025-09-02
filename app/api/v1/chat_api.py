@@ -1,15 +1,13 @@
 # app/api/v1/chat_api.py
 """Chat API endpoints."""
 
-
 import logging
 from functools import lru_cache
-from typing import Any, List
-from uuid import UUID
+from typing import Any
 
 from fastapi import APIRouter, Depends, HTTPException
 
-from app.schemas.chat import ChatRequest, ChatResponse, SessionDetail, SessionInfo
+from app.schemas.chat import ChatRequest, ChatResponse
 from app.services.chat_service import ChatService
 
 logger = logging.getLogger(__name__)
@@ -36,6 +34,7 @@ async def chat(
     except Exception as e:
         logger.exception("Chat endpoint failed")
         raise HTTPException(status_code=500, detail=f"Chat failed: {str(e)}")
+
 
 @router.get("/storage/stats")
 async def get_storage_stats(

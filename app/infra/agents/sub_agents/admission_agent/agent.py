@@ -18,20 +18,19 @@ from google.adk.tools import google_search
 
 load_dotenv()
 
-admission_rag_agent = RAG_Agent_admission(
+admission_agent = RAG_Agent_admission(
     name="admission_rag_agent",
     answer_generator=LlmAgent(
         name="admission_rag_llm",
+        instruction=admission_agent_instruction,
         model="gemini-2.5-flash"
     )
 )
 
 
-admission_agent = Agent(
-    name = "admission_agent",
-    description = "Tác nhân sử dụng rag_agent_admission để trả lời câu hỏi của người dùng về thông tin tuyển sinh và thông tin các ngành học của công nghệ bưu chính viễn thông Viễn thông PTIT",
-    instruction = admission_agent_instruction,
-    sub_agents = [admission_rag_agent],
-    disallow_transfer_to_parent= True
-)
-
+# admission_agent = Agent(
+#     name = "admission_agent",
+#     description = "Tác nhân sử dụng rag_agent_admission để trả lời câu hỏi của người dùng về thông tin tuyển sinh và thông tin các ngành học của công nghệ bưu chính viễn thông Viễn thông PTIT",
+#     instruction = admission_agent_instruction,
+#     sub_agents = [admission_rag_agent]
+# )

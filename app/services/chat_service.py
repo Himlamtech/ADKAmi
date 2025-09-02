@@ -1,19 +1,15 @@
 # app/services/chat_service.py
 """Chat service with in-memory storage."""
+
 import logging
 from datetime import datetime
 from typing import Dict, List, Optional
 from uuid import UUID, uuid4
 
-from app.utils.io import load_json, save_json
 from app.infra.llms.openai_llm import OpenAILLM
 from app.infra.storage.json_storage import JSONChatStorage
-from app.schemas.chat import (
-    ChatRequest,
-    ChatResponse,
-    Message,
-    SessionInfo,
-)
+from app.schemas.chat import ChatRequest, ChatResponse, Message, SessionInfo
+from app.utils.io import load_json
 
 logger = logging.getLogger(__name__)
 
@@ -29,9 +25,7 @@ class ChatService:
         self.llm = llm_client or OpenAILLM()
         self.storage = storage or JSONChatStorage()
         # Load existing sessions from storage
-        self.session_info: Dict[UUID, SessionInfo] = load_json(
-            "storage/sessions.json"
-        )
+        self.session_info: Dict[UUID, SessionInfo] = load_json("storage/sessions.json")
 
     async def chat(self, request: ChatRequest) -> ChatResponse:
         # 1. Tạo hoặc lấy session
@@ -98,7 +92,6 @@ class ChatService:
     async def save_messages(self, session_id: UUID, messages: List[Message]) -> None:
         """Lưu messages vào storage."""
         self.storage.append_messages(session_id, messages)
-
 
     async def _create_session(self, session_id: UUID) -> None:
         """Tạo session mới."""

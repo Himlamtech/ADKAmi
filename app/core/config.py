@@ -3,12 +3,14 @@ from functools import lru_cache
 from typing import Any, Literal
 import os
 import rootutils
-from pydantic import SecretStr, field_validator, ValidationInfo
+from pydantic import SecretStr, ValidationInfo, field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 rootutils.setup_root(__file__, indicator=".env", pythonpath=True)
 
-ChatModel = Literal["gpt-5", "gpt-5-mini", "gpt-5-nano", "gemini-2.0-flash", "gemini-2.5-flash"]
+ChatModel = Literal[
+    "gpt-5", "gpt-5-mini", "gpt-5-nano", "gemini-2.0-flash", "gemini-2.5-flash"
+]
 EmbedModel = Literal["text-embedding-3-small", "text-embedding-3-large"]
 Dist = Literal["cosine", "l2", "ip"]
 
@@ -65,14 +67,16 @@ class Settings(BaseSettings):
 
     # --- Providers ---
     OPENAI_API_KEY: SecretStr | None = None  # Required in production
-    GOOGLE_API_KEY: SecretStr | None = None  
+    GOOGLE_API_KEY: SecretStr | None = None
 
     # --- Models ---
     DEFAULT_CHAT_MODEL_ID: ChatModel = "gpt-5-nano"
-    THINKING_CHAT_MODEL_ID: ChatModel = "gemini-2.5-flash"  # Model worked well with BuiltInPlanner
+    THINKING_CHAT_MODEL_ID: ChatModel = (
+        "gemini-2.5-flash"  # Model worked well with BuiltInPlanner
+    )
     GENERAL_CHAT_MODEL_ID: ChatModel = "gemini-2.0-flash"  # Model for general task
     DEFAULT_EMBED_MODEL_ID: EmbedModel = "text-embedding-3-small"
-    
+
     # --- Infra ---
     DATABASE_URL: str = "postgresql+psycopg://rag:ragpass@localhost:5432/ragdb"
     REDIS_URL: str = "redis://localhost:6379/0"
@@ -138,9 +142,8 @@ class Settings(BaseSettings):
                 # Tạo thông báo lỗi động, chính xác cho từng trường
                 raise ValueError(f"{current_field_name} is required in production")
             return None
-            
-        return SecretStr(str(v).strip())
 
+        return SecretStr(str(v).strip())
 
     @field_validator("PGVECTOR_DIM", mode="after")
     @classmethod
