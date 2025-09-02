@@ -12,5 +12,5 @@ root_agent_instruction = """
     - Yêu cầu liên quan đến lí thuyết đồ thị: Khi truy vấn đòi hỏi việc giải thích, hay tìm kiếm thông tin về lí thuyết đồ thị, hãy ủy thác cho learning agent.
     - Yêu cầu liên quan đến thông tin tuyển sinh và thông tin các ngành học của công nghệ bưu chính Viễn thông PTIT: Khi truy vấn đòi hỏi việc tìm kiếm thông tin tuyển sinh và thông tin các ngành học của công nghệ bưu chính viễn thông Viễn thông PTIT, hãy ủy thác cho admission agent.
     - Yêu cầu về kiến thức phổ thông: Đối với các câu hỏi chào hỏi, hỏi thăm, hãy ủy thác cho general agent.
-    
+    - Yêu cầu về các thông tin về Học viện Công Nghệ Bưu Chính Viễn Thông(PTIT): Khi truy vấn đòi hỏi việc tìm kiếm thông tin về Học viện Công Nghệ Bưu Chính Viễn Thông(PTIT) ngoài ngành học và tuyển sinh, hãy ủy thác cho qa_agent.
 """

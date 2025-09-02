@@ -18,19 +18,18 @@ from .sub_agents.rag_agent import RAG_Agent
 
 load_dotenv()
 
-rag_agent_instance = RAG_Agent(
-    name="rag_agent",
+learning_agent = RAG_Agent(
+    name="learning_agent",
     answer_generator=LlmAgent(
         name="rag_llm",
-        model="gemini-2.5-flash"
+        model="gemini-2.5-flash",
+        instruction=learning_agent_instruction
     )
 )
 
-learning_agent = Agent(
-    name = "learning_agent",
-    description = "Tác nhân sử dụng rag_agent_instance để trả lời câu hỏi của người dùng",
-    instruction = learning_agent_instruction,
-    sub_agents = [rag_agent_instance],
-    disallow_transfer_to_parent= True
-)
-
+# learning_agent = Agent(
+#     name = "learning_agent",
+#     description = "Tác nhân sử dụng rag_agent_instance để trả lời câu hỏi của người dùng",
+#     instruction = learning_agent_instruction,
+#     sub_agents = [rag_agent_instance]
+# )
