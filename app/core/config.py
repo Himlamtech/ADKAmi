@@ -20,6 +20,7 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 # ===== Enums =====
 class ChatModelID(str, Enum):
+    GPT41NANO = "gpt-4.1-nano"
     GPT5 = "gpt-5"
     GPT5_MINI = "gpt-5-mini"
     GPT5_NANO = "gpt-5-nano"
@@ -90,7 +91,7 @@ class Settings(BaseSettings):
     GOOGLE_API_KEY: SecretStr | None = None
 
     # --- Models ---
-    DEFAULT_CHAT_MODEL_ID: ChatModelID = ChatModelID.GPT5_NANO
+    DEFAULT_CHAT_MODEL_ID: ChatModelID = ChatModelID.GPT41NANO
     GENERAL_CHAT_MODEL_ID: ChatModelID = ChatModelID.GPT5_MINI
     DEFAULT_EMBED_MODEL_ID: EmbedModelID = EmbedModelID.E3_SMALL
 

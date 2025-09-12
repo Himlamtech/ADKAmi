@@ -5,6 +5,20 @@ from typing import List
 from pydantic import BaseModel, Field
 
 
+class RAGChatRequest(BaseModel):
+    """Request schema for RAG chat."""
+
+    question: str = Field(..., description="User question")
+    session_id: str = Field(..., description="Chat session ID")
+
+
+class RAGChatResponse(BaseModel):
+    """Response schema for RAG chat."""
+
+    answer: str = Field(..., description="Generated answer")
+    session_id: str = Field(..., description="Chat session ID")
+
+
 class RAGRequest(BaseModel):
     """Request schema for RAG queries."""
 

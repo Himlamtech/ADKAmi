@@ -14,7 +14,9 @@ rag_service = RAGService()
 async def rag_chat(request: RAGChatRequest) -> RAGChatResponse:
     """Chat với RAG service."""
     try:
-        answer = rag_service.generate_response(request.question, request.session_id)
+        answer = await rag_service.generate_response(
+            request.question, request.session_id
+        )
         return RAGChatResponse(answer=answer, session_id=request.session_id)
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))

@@ -10,7 +10,7 @@ from openai import OpenAI
 
 rootutils.setup_root(__file__, indicator=".env", pythonpath=True)
 
-from app.core.config import settings  # noqa: E402
+from app.core.config import get_config  # noqa: E402
 
 logger = logging.getLogger(__name__)
 
@@ -20,12 +20,13 @@ class OpenAILLM:
 
     def __init__(self, client: Any = None) -> None:
         self._client = client
+        self.config = get_config()
 
     @property
     def client(self) -> Any:
         """Get OpenAI client."""
         if self._client is None:
-            api_key = settings.OPENAI_API_KEY
+            api_key = self.config.OPENAI_API_KEY
             if not api_key:
                 raise RuntimeError("OPENAI_API_KEY not configured")
             key = (
@@ -39,7 +40,7 @@ class OpenAILLM:
     async def complete(
         self,
         messages: list[dict[str, Any]],
-        model_id: str = "gpt-5-nano",
+        model_id: str = "gpt-4.1-nano",
         **kwargs: Any,
     ) -> str:
         """Get completion."""

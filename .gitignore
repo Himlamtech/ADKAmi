@@ -140,6 +140,7 @@ media/
 ########################
 # assets/
 storage/
+vectorstore/
 .vscode/
 
 emp.py

@@ -2,54 +2,89 @@ import rootutils
 
 rootutils.setup_root(__file__, indicator=".env", pythonpath=True)
 
+import time
 from datetime import datetime
 from uuid import UUID
 
-from langchain_openai import ChatOpenAI
-
 from app.core.config import get_config
-from app.infra.features.rag.prompt import RAG_PROMPT
+from app.infra.llms.openai_llm import OpenAILLM
+from app.infra.storage.chroma_vector_store import ChromaVectorStore
 from app.infra.storage.json_storage import JSONChatStorage
-from app.infra.storage.vector_store import VectorStoreService
 from app.schemas.chat import Message
 
 
 # ---- RAG Service ----------------------------------------------------------
 class RAGService:
-    """Basic RAG on top of Chroma vector store."""
+    """Compact RAG service using ChromaDB vector store and OpenAI client."""
 
     def __init__(self):
         self.config = get_config()
-        self.vector_store = VectorStoreService()
+        self.vector_store = ChromaVectorStore()
         self.storage = JSONChatStorage()
+        self.llm = OpenAILLM()
 
-        model_name = self.config.DEFAULT_CHAT_MODEL_ID.value or "gpt-5-nano"
-        self._llm = ChatOpenAI(model=model_name, temperature=0.5)
+    def _create_prompt(self, question: str, context: list[str]) -> list[dict[str, str]]:
+        """Create simple prompt for RAG."""
+        context_text = "\n\n".join(context)
+        prompt = f"""Bạn là trợ lý AI thông minh của Học viện PTIT. Hãy trả lời câu hỏi dựa trên thông tin được cung cấp.
 
-    def generate_response(self, question: str, session_id: str) -> str:
+Thông tin tham khảo:
+{context_text}
+
+Câu hỏi: {question}
+
+Hãy trả lời một cách chính xác, súc tích và hữu ích. Nếu không tìm thấy thông tin liên quan, hãy nói rằng bạn không có đủ thông tin để trả lời."""
+
+        return [{"role": "user", "content": prompt}]
+
+    async def generate_response(self, question: str, session_id: str) -> str:
+        """Generate response using ChromaDB vector search and OpenAI."""
         # Tìm kiếm tài liệu liên quan
-        relevant_docs = self.vector_store.similarity_search(question, k=3)
+        start_time = time.time()
+        relevant_docs = self.vector_store.similarity_search(question, k=5)
+        search_time = time.time() - start_time
+        print(f"Vector search time: {search_time:.3f}s")
 
         # Sinh câu trả lời
-        response = self._llm.invoke(
-            RAG_PROMPT.invoke({"question": question, "context": relevant_docs})
+        start_time = time.time()
+        messages = self._create_prompt(question, relevant_docs)
+        response = await self.llm.complete(
+            messages, model_id=self.config.DEFAULT_CHAT_MODEL_ID.value
         )
+        llm_time = time.time() - start_time
+        print(f"LLM response time: {llm_time:.3f}s")
 
         # Lưu lịch sử chat
-        messages = [
+        chat_messages = [
             Message(role="user", content=question, timestamp=datetime.now()),
-            Message(
-                role="assistant", content=response.content, timestamp=datetime.now()
-            ),
+            Message(role="assistant", content=response, timestamp=datetime.now()),
         ]
-        self.storage.append_messages(UUID(session_id), messages)
+        try:
+            session_uuid = UUID(session_id)
+        except ValueError:
+            # If session_id is not a valid UUID, create a new one
+            import uuid
 
-        return response.content
+            session_uuid = uuid.uuid4()
+
+        self.storage.append_messages(session_uuid, chat_messages)
+
+        return response
 
 
-# rag_service = RAGService()
-# start_time = time.time()
-# response = rag_service.generate_response("Giám đốc học viện là ai?")
-# print(response)
-# end_time = time.time()
-# print(f"Time taken: {end_time - start_time} seconds")
+# Usage example:
+# import asyncio
+#
+# async def demo():
+#     rag_service = RAGService()
+#     # Load data first
+#     rag_service.vector_store.load_from_csv()
+#
+#     # Generate response
+#     response = await rag_service.generate_response(
+#         "Giám đốc học viện là ai?",
+#         "550e8400-e29b-41d4-a716-446655440000"
+#     )
+#     print(response)
+#
+# # asyncio.run(demo())
